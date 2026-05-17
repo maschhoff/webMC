@@ -5,7 +5,7 @@
  * Serves the frontend and handles all file operations.
  *
  * Usage: node server.js [port]
- * Default port: 8080
+ *        node server.js 8080 --left /home --right /tmp
  */
 
 const http = require('http');
@@ -25,7 +25,22 @@ try {
   console.warn(`⚠️  Config-Fehler: ${e.message}, verwende Defaults`);
 }
 
-const PORT = parseInt(process.argv[2], 10) || CONFIG.port;
+// Kommandozeilen-Argumente parsen (überschreiben config.json)
+const args = process.argv.slice(2);
+for (let i = 0; i < args.length; i++) {
+  if (args[i] === '--left' && args[i + 1]) CONFIG.leftPanel = args[++i];
+  else if (args[i] === '--right' && args[i + 1]) CONFIG.rightPanel = args[++i];
+  else if (args[i] === '--help') {
+    console.log('WebMC — node server.js [port] [--left <pfad>] [--right <pfad>]');
+    process.exit(0);
+  } else if (!isNaN(parseInt(args[i], 10))) {
+    CONFIG.port = parseInt(args[i], 10);
+  }
+}
+
+console.log(`📐 Links: ${CONFIG.leftPanel}  Rechts: ${CONFIG.rightPanel}`);
+
+const PORT = CONFIG.port;
 const ROOT = __dirname;
 const MIME_TYPES = {
   '.html': 'text/html; charset=utf-8',

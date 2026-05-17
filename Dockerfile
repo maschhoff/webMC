@@ -11,6 +11,10 @@ RUN apk add --no-cache tar
 WORKDIR /app
 COPY config.json index.html style.css app.js server.js README.md install.sh Dockerfile ./
 
+# Environment-Variablen für Startordner (überschreiben config.json zur Laufzeit)
+ENV WEBMC_LEFT="/"
+ENV WEBMC_RIGHT="/"
+
 # Nicht-root User (wie in install.sh empfohlen)
 RUN adduser -D webmc && chown -R webmc:webmc /app
 
@@ -19,5 +23,5 @@ EXPOSE 4500
 
 USER webmc
 
-# Start (wie install.sh, aber als CMD)
-CMD ["node", "server.js"]
+# Start – übergibt Environment-Variablen an server.js
+CMD ["sh", "-c", "node server.js --left \"$WEBMC_LEFT\" --right \"$WEBMC_RIGHT\""]
