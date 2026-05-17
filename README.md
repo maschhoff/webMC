@@ -28,6 +28,20 @@
 
 ## 📦 Installation
 
+### Docker
+
+```bash
+docker run
+  -d
+  --name='webmc'
+  --net='bridge'
+  -e 'WEBMC_LEFT'='/'
+  -e 'WEBMC_RIGHT'='/'
+  -p '4500:4500/tcp'
+  -v '/mnt/user/Media':'/mnt/media':'rw' 'knex666/webmc:latest'
+```
+
+
 ### Voraussetzungen
 
 - **Node.js** (v16 oder neuer)
