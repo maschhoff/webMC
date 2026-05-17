@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WebMC — File Manager</title>
+<link rel="stylesheet" href="style.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><text y='14' font-size='14'>📂</text></svg>">
+</head>
+<body>
+<div id="statusbar-top">
+  <span id="status-host">WebMC</span>
+  <span id="status-info">Ctrl+O: Terminal · F10: Exit</span>
+</div>
+<div id="panels">
+  <div id="panel-left" class="panel active-panel">
+    <div class="panel-header">
+      <span class="panel-title" id="title-left">/</span>
+      <span class="panel-info" id="info-left">0 Dateien</span>
+    </div>
+    <div class="panel-listing" id="listing-left" tabindex="0"></div>
+  </div>
+  <div id="panel-divider"></div>
+  <div id="panel-right" class="panel">
+    <div class="panel-header">
+      <span class="panel-title" id="title-right">/</span>
+      <span class="panel-info" id="info-right">0 Dateien</span>
+    </div>
+    <div class="panel-listing" id="listing-right" tabindex="0"></div>
+  </div>
+</div>
+<div id="cmdline-wrapper">
+  <span id="cmdline-prompt">$</span>
+  <input type="text" id="cmdline-input" placeholder="Befehl eingeben..." spellcheck="false" autocomplete="off">
+</div>
+<div id="buttonbar">
+  <button class="fn-btn" data-fn="help" title="Hilfe"><span class="fn-key">F1</span> Hilfe</button>
+  <button class="fn-btn" data-fn="rename" title="Umbenennen"><span class="fn-key">F2</span> Umbenennen</button>
+  <button class="fn-btn" data-fn="view" title="Anzeigen"><span class="fn-key">F3</span> Anzeigen</button>
+  <button class="fn-btn" data-fn="edit" title="Bearbeiten"><span class="fn-key">F4</span> Bearbeiten</button>
+  <button class="fn-btn" data-fn="copy" title="In Zwischenablage"><span class="fn-key">F5</span> Kopieren</button>
+  <button class="fn-btn" data-fn="move" title="In Zwischenablage"><span class="fn-key">F6</span> Verschieben</button>
+  <button class="fn-btn" data-fn="paste" title="Einfügen"><span class="fn-key">F6</span> Einfügen</button>
+  <button class="fn-btn" data-fn="mkdir" title="Verzeichnis"><span class="fn-key">F7</span> Verzeichnis</button>
+  <button class="fn-btn danger" data-fn="delete" title="Löschen"><span class="fn-key">F8</span> Löschen</button>
+  <button class="fn-btn" data-fn="terminal" title="Terminal"><span class="fn-key">F9</span> Terminal</button>
+  <button class="fn-btn" data-fn="exit" title="Beenden"><span class="fn-key">F10</span> Beenden</button>
+</div>
+<div id="statusbar-bottom">
+  <span id="status-left">Hilfe: F1</span>
+  <span id="status-center" id="status-msg">Bereit</span>
+  <span id="status-right" id="status-path">~</span>
+</div>
+
+<!-- Terminal Overlay -->
+<div id="terminal-overlay" class="hidden">
+  <div id="terminal-bar">
+    <span>Terminal</span>
+    <button id="terminal-close">×</button>
+  </div>
+  <pre id="terminal-output"></pre>
+  <div id="terminal-input-line">
+    <span id="terminal-prompt">$</span>
+    <input type="text" id="terminal-input" spellcheck="false" autocomplete="off">
+  </div>
+</div>
+
+<div id="toast-container"></div>
+
+<script src="app.js"></script>
+</body>
+</html>
