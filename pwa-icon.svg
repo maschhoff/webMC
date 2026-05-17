@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <rect width="512" height="512" rx="80" fill="#1a1b26"/>
+  <!-- Linkes Panel -->
+  <rect x="32" y="80" width="200" height="352" rx="12" fill="#24283b" stroke="#7aa2f7" stroke-width="4"/>
+  <rect x="48" y="96" width="168" height="20" rx="4" fill="#7aa2f7" opacity="0.3"/>
+  <rect x="48" y="128" width="168" height="12" rx="3" fill="#565f89"/>
+  <rect x="48" y="150" width="140" height="12" rx="3" fill="#565f89"/>
+  <rect x="48" y="172" width="160" height="12" rx="3" fill="#565f89"/>
+  <rect x="48" y="194" width="120" height="12" rx="3" fill="#565f89"/>
+  <rect x="48" y="216" width="150" height="12" rx="3" fill="#565f89"/>
+  <!-- Rechtes Panel -->
+  <rect x="280" y="80" width="200" height="352" rx="12" fill="#24283b" stroke="#24283b" stroke-width="4"/>
+  <rect x="296" y="96" width="168" height="20" rx="4" fill="#7aa2f7" opacity="0.2"/>
+  <rect x="296" y="128" width="168" height="12" rx="3" fill="#565f89"/>
+  <rect x="296" y="150" width="130" height="12" rx="3" fill="#565f89"/>
+  <rect x="296" y="172" width="150" height="12" rx="3" fill="#565f89"/>
+  <rect x="296" y="194" width="160" height="12" rx="3" fill="#565f89"/>
+  <rect x="296" y="216" width="120" height="12" rx="3" fill="#565f89"/>
+  <!-- Buttonleiste unten -->
+  <rect x="32" y="452" width="448" height="28" rx="6" fill="#1f2335"/>
+  <!-- Chevron -->
+  <path d="M370 345 l30 30 l-30 30" stroke="#7aa2f7" stroke-width="6" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

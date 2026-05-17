@@ -4,10 +4,6 @@
 
 > Kein npm, keine Abhängigkeiten, kein Build-Prozess. Nur Node.js.
 
-
-<img width="1080" height="530" alt="image" src="https://github.com/user-attachments/assets/827538e0-1bde-427a-b328-b36e46f19582" />
-
-
 ---
 
 ## 🚀 Features
@@ -31,20 +27,6 @@
 ---
 
 ## 📦 Installation
-
-### Docker
-
-```bash
-docker run
-  -d
-  --name='webmc'
-  --net='bridge'
-  -e 'WEBMC_LEFT'='/'
-  -e 'WEBMC_RIGHT'='/'
-  -p '4500:4500/tcp'
-  -v '/mnt/user/Media':'/mnt/media':'rw' 'knex666/webmc:latest'
-```
-
 
 ### Voraussetzungen
 
