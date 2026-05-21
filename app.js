@@ -22,13 +22,14 @@ const SIZE_UNITS = ['B', 'K', 'M', 'G', 'T'];
 const state = {
   activePanel: 'left',
   panels: {
-    left:  { path: '/', files: [], cursor: 0, scroll: 0, marked: new Set() },
-    right: { path: '/', files: [], cursor: 0, scroll: 0, marked: new Set() },
+    left:  { path: '/', files: [], cursor: 0, scroll: 0, marked: new Set(), sortBy: 'name', sortDir: 1 },
+    right: { path: '/', files: [], cursor: 0, scroll: 0, marked: new Set(), sortBy: 'name', sortDir: 1 },
   },
   cmdHistory: [],
   cmdHistoryIdx: -1,
   clipboard: null,
   terminal: { output: '', cwd: '' },
+  activeContextMenu: null,
 };
 
 /* ============================================================
@@ -205,6 +206,7 @@ function renderPanel(side) {
   const info = side === 'left' ? el.infoL : el.infoR;
 
   title.textContent = panel.path;
+  info.textContent = `${panel.files.length} Einträge`;
 
   let html = '';
   if (panel.path !== '/') {
@@ -216,7 +218,18 @@ function renderPanel(side) {
   const sorted = [...panel.files].sort((a,b) => {
     if (a.isDirectory && !b.isDirectory) return -1;
     if (!a.isDirectory && b.isDirectory) return 1;
-    return (a.name||'').localeCompare(b.name||'');
+    const dir = panel.sortDir;
+    switch (panel.sortBy) {
+      case 'date':
+        const da = a.modified || 0, db = b.modified || 0;
+        return dir * (da - db);
+      case 'size':
+        const sa = a.isDirectory ? 0 : (a.size || 0);
+        const sb = b.isDirectory ? 0 : (b.size || 0);
+        return dir * (sa - sb);
+      default:
+        return dir * (a.name||'').localeCompare(b.name||'');
+    }
   });
 
   for (const f of sorted) {
@@ -230,7 +243,6 @@ function renderPanel(side) {
   }
 
   listing.innerHTML = html;
-  info.textContent = `${panel.files.length} Einträge`;
   requestAnimationFrame(() => { listing.scrollTop = panel.scroll; });
 }
 
@@ -267,6 +279,38 @@ function setActivePanel(side) {
   el.right.classList.toggle('active-panel', side==='right');
   const listing = side==='left' ? el.listingL : el.listingR;
   listing.focus();
+  updateSortHeaders(side);
+}
+
+/* ============================================================
+   Sorting
+   ============================================================ */
+function toggleSort(side, field) {
+  const panel = state.panels[side];
+  if (panel.sortBy === field) {
+    panel.sortDir *= -1;
+  } else {
+    panel.sortBy = field;
+    panel.sortDir = 1;
+  }
+  panel.cursor = 0;
+  panel.marked.clear();
+  renderPanel(side);
+  applyCursor(side);
+  updateSortHeaders(side);
+}
+
+function updateSortHeaders(side) {
+  const header = side === 'left' ? $$('.sort-header', el.left) : $$('.sort-header', el.right);
+  header.forEach(h => {
+    const field = h.dataset.sort;
+    h.classList.toggle('active', field === state.panels[side].sortBy);
+    if (field === state.panels[side].sortBy) {
+      h.textContent = state.panels[side].sortDir === 1 ? `${h.dataset.label} ▲` : `${h.dataset.label} ▼`;
+    } else {
+      h.textContent = h.dataset.label;
+    }
+  });
 }
 
 function getActivePanel() { return state.activePanel; }
@@ -869,7 +913,11 @@ function handleKey(e) {
    ============================================================ */
 function showContextMenu(e, side) {
   e.preventDefault();
-  // Simple native right-click menu
+  // Vorheriges Context-Menü schließen
+  if (state.activeContextMenu) {
+    state.activeContextMenu.remove();
+    state.activeContextMenu = null;
+  }
   const menu = document.createElement('div');
   menu.className = 'context-menu';
   menu.style.left = e.clientX + 'px';
@@ -904,9 +952,21 @@ function showContextMenu(e, side) {
     }
   }
   document.body.appendChild(menu);
+  state.activeContextMenu = menu;
 
-  const closeMenu = (ev) => { if (!menu.contains(ev.target)) { menu.remove(); document.removeEventListener('click', closeMenu); } };
-  setTimeout(() => document.addEventListener('click', closeMenu), 0);
+  const closeMenu = (ev) => {
+    if (ev.button && ev.button !== 0) return; // nur Linksklick
+    if (!menu.contains(ev.target)) {
+      menu.remove();
+      state.activeContextMenu = null;
+      document.removeEventListener('click', closeMenu);
+      document.removeEventListener('contextmenu', closeMenu);
+    }
+  };
+  setTimeout(() => {
+    document.addEventListener('click', closeMenu);
+    document.addEventListener('contextmenu', closeMenu);
+  }, 0);
 }
 
 /* ============================================================
@@ -1008,6 +1068,16 @@ function init() {
 
   makePanelClickable('left', el.listingL, el.titleL, $('#panel-left .panel-header'));
   makePanelClickable('right', el.listingR, el.titleR, $('#panel-right .panel-header'));
+
+  // ===== Sort-Header Klick-Handler =====
+  $$('.sort-header', el.left).forEach(h => {
+    h.addEventListener('click', e => { e.stopPropagation(); toggleSort('left', h.dataset.sort); });
+  });
+  $$('.sort-header', el.right).forEach(h => {
+    h.addEventListener('click', e => { e.stopPropagation(); toggleSort('right', h.dataset.sort); });
+  });
+  updateSortHeaders('left');
+  updateSortHeaders('right');
 
   // Panel divider resize
   let isResizing = false;

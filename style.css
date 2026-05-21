@@ -109,7 +109,7 @@ html, body {
   display: flex;
   flex: 1;
   min-height: 0;
-  height: calc(100vh - 104px);
+  height: calc(100vh - 126px);
 }
 
 .panel {
@@ -146,6 +146,31 @@ html, body {
   height: 30px;
   flex-shrink: 0;
 }
+
+/* Column sort headers */
+.panel-colheaders {
+  display: flex;
+  align-items: center;
+  height: 22px;
+  padding: 0 10px 0 34px;
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+  font-size: 11.5px;
+}
+
+.colheader {
+  color: var(--fg-dim);
+  cursor: pointer;
+  user-select: none;
+  transition: color 0.12s;
+}
+.colheader:hover { color: var(--accent); }
+.colheader.active { color: var(--accent2); font-weight: bold; }
+
+.colheader.col-name { flex: 1; }
+.colheader.col-size { width: 80px; text-align: right; }
+.colheader.col-date { width: 120px; text-align: right; }
 
 .panel-title {
   font-weight: bold;
