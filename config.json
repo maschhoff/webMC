@@ -1,5 +1,6 @@
 {
   "port": 4500,
   "leftPanel": "/",
-  "rightPanel": "/"
+  "rightPanel": "/",
+  "language": "en"
 }

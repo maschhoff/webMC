@@ -1,163 +1,105 @@
-# 📂 WebMC — Midnight Commander für den Browser
+# WebMC
 
-**WebMC** ist ein moderner, webbasierter Dateimanager im Stil von **Midnight Commander (MC)** und **Krusader**. Zwei Panels, Tastatursteuerung, integriertes Terminal – alles in einem einzigen, portablen Ordner.
+A web-based file manager inspired by Midnight Commander.  
+Runs on any machine with Node.js — no dependencies, no npm install needed.
 
-> Kein npm, keine Abhängigkeiten, kein Build-Prozess. Nur Node.js.
+![Screenshot](assets/screenshot.png)
 
+## Features
 
-<img width="1080" height="530" alt="image" src="https://github.com/user-attachments/assets/827538e0-1bde-427a-b328-b36e46f19582" />
+- **Dual-panel layout** — browse two directories side by side
+- **Keyboard-driven** — full F1–F10, arrow keys, and command-line interface
+- **Built-in Terminal** — execute shell commands directly in the browser
+- **Inline Editor** — edit text files with save support (Ctrl+Enter to save)
+- **File Operations** — copy, move, rename, delete, create directories
+- **Marking** — select multiple files for batch operations
+- **Drag & Drop Upload** — drag files from your desktop into the browser
+- **Download** — single files or multi-file archives (.tar.gz)
+- **Search** — find files by glob patterns (e.g. `*.txt`)
+- **Context Menu** — right-click for quick actions
+- **PWA Ready** — can be installed as a progressive web app
+- **Docker Support** — ready-to-run container image
+- **i18n** — English and German UI (configurable)
 
-
----
-
-## 🚀 Features
-
-| Funktion | Beschreibung |
-|---|---|
-| **Zwei Panels** | Wie MC – links/rechts, unabhängig navigierbar |
-| **Tastatursteuerung** | F1–F10, Pfeiltasten, Tab, Insert, +, \\ und mehr |
-| **Button-Leiste** | Alle F-Tasten als Klick-Buttons unten |
-| **Dateioperationen** | Kopieren, Verschieben, Löschen, Umbenennen, Verzeichnis anlegen |
-| **Integriertes Terminal** | Shell im Browser (Strg+O), arbeitet im aktuellen Ordner |
-| **Inline-Editor** | Textdateien direkt im Browser bearbeiten und speichern |
-| **Drag & Drop** | Dateien per Drag & Drop in WebMC hochladen |
-| **Rechtsklick-Menü** | Kontextmenü mit allen Aktionen |
-| **Markieren** | Insert, + (alle), \\ (umkehren) |
-| **Suchen** | Rekursive Dateisuche mit Platzhaltern |
-| **Herunterladen** | Einzeldateien oder mehrere als tar.gz-Archiv |
-| **Panel-Größe** | Trennbalken per Maus verschiebbar |
-| **Anpassbar** | Port und Startordner in `config.json` |
-
----
-
-## 📦 Installation
-
-### Docker
+## Quick Start
 
 ```bash
-docker run
-  -d
-  --name='webmc'
-  --net='bridge'
-  -e 'WEBMC_LEFT'='/'
-  -e 'WEBMC_RIGHT'='/'
-  -p '4500:4500/tcp'
-  -v '/mnt/user/Media':'/mnt/media':'rw' 'knex666/webmc:latest'
-```
-
-
-### Voraussetzungen
-
-- **Node.js** (v16 oder neuer)
-
-Prüfen mit: `node --version`
-
-### Variante 1: Per Install-Script
-
-```bash
-# 1. Entpacken
-tar xzf webmc-project.tar.gz
-
-# 2. Installation ausführen
-cd webmc
-chmod +x install.sh
-./install.sh
-```
-
-Das Script installiert ggf. fehlende Abhängigkeiten und startet den Server.
-
-### Variante 2: Manuell
-
-```bash
-cd webmc
 node server.js
 ```
 
-Dann im Browser öffnen: **http://localhost:4500**
+Then open http://localhost:4500 in your browser.
 
-### Port ändern
+## Usage
 
 ```bash
-node server.js 8080          # via Kommandozeile
-# oder in config.json bearbeiten:
+node server.js [port] [--left <path>] [--right <path>]
+
+Examples:
+  node server.js                    # port 4500, panels: / and /
+  node server.js 8080              # port 8080
+  node server.js --left /home --right /tmp
+  node server.js 8080 --left /etc --right /var/log
 ```
 
----
+## Configuration
 
-## ⚙️ Konfiguration
-
-Die Datei **`config.json`** im Projektordner:
+Edit `config.json` in the project root:
 
 ```json
 {
   "port": 4500,
   "leftPanel": "/",
-  "rightPanel": "/"
+  "rightPanel": "/",
+  "language": "en"
 }
 ```
 
-| Feld | Beschreibung |
+- `port` — HTTP server port (default: 4500)
+- `leftPanel` — default left panel path
+- `rightPanel` — default right panel path
+- `language` — UI language: `"en"` (English) or `"de"` (German)
+
+Command-line arguments override `config.json` values.  
+The language is loaded from config on startup. Changing the value requires a server restart.
+
+## Keyboard Shortcuts
+
+| Key | Action |
 |---|---|
-| `port` | Port auf dem der Server läuft (Default: 4500) |
-| `leftPanel` | Startverzeichnis des linken Panels |
-| `rightPanel` | Startverzeichnis des rechten Panels |
+| F1 | Help |
+| F2 | Rename |
+| F3 | View file |
+| F4 | Edit file |
+| F5 | Copy |
+| F6 | Move |
+| F7 | New directory |
+| F8 | Delete |
+| F9 | Terminal |
+| F10 | Exit |
+| Tab | Switch panel |
+| ↑/↓ | Move cursor |
+| PgUp/PgDn | Page up/down |
+| Home/End | Beginning/End |
+| Ins | Toggle mark |
+| + | Mark all |
+| \ | Invert selection |
+| Ctrl+O | Terminal |
+| Ctrl+R | Search |
+| Ctrl+L | Refresh |
+| Ctrl+\\ | Invert selection |
+| Alt+Enter | Open in other panel |
+| : | Open command line |
 
----
+## Docker
 
-## ⌨️ Tastenkürzel
-
-| Taste | Aktion |
-|---|---|
-| **F1** | Hilfe anzeigen |
-| **F2** | Umbenennen |
-| **F3** / **F4** | Datei öffnen/bearbeiten |
-| **F5** | In anderes Panel kopieren |
-| **F6** | In anderes Panel verschieben |
-| **F7** | Verzeichnis anlegen |
-| **F8** | Löschen |
-| **F9** | Terminal öffnen |
-| **F10** | Beenden |
-| **Tab** | Panel wechseln |
-| **↑ ↓** | Cursor bewegen |
-| **PgUp / PgDn** | Seite hoch/runter |
-| **Home / End** | Anfang/Ende der Liste |
-| **Enter** | Ordner öffnen / Datei |
-| **Insert** | Datei markieren |
-| **+** | Alle markieren |
-| **\\** | Auswahl umkehren |
-| **:** | Kommandozeile (cd, mkdir, rm, …) |
-| **Strg+O** | Terminal umschalten |
-| **Strg+R** | Suchen |
-| **Strg+L** | Beide Panels aktualisieren |
-| **Alt+Enter** | Im anderen Panel öffnen |
-
----
-
-## 📁 Dateien
-
-```
-webmc/
-├── config.json      ← Konfiguration (Port, Startordner)
-├── index.html       ← Oberfläche (HTML)
-├── style.css        ← Design (Tokyo-Night-Dark-Theme)
-├── app.js           ← Frontend-Logik (Browser)
-├── server.js        ← Backend-Server (Node.js)
-└── install.sh       ← Installations-Script
+```bash
+docker build -t webmc .
+docker run -p 4500:4500 \
+  -v /:/mnt:ro \
+  -e CONFIG='{"port":4500,"leftPanel":"/mnt","language":"en"}' \
+  webmc
 ```
 
-Alles **ohne externe Abhängigkeiten**. Einfach kopieren, `node server.js` – fertig.
+## License
 
----
-
-## 🛡️ Sicherheit
-
-- WebMC ist für **lokale Netzwerke** gedacht
-- Keine Authentifizierung – nicht direkt ins Internet hängen
-- Zugriff auf das gesamte Dateisystem des Servers
-- Pfad-Traversal wird durch `safePath()` verhindert
-
----
-
-## 📝 Lizenz
-
-MIT – mach damit was du willst.
+MIT — do what you want with it.

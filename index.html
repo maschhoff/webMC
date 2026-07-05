@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="de">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -17,7 +17,7 @@
 <body>
 <div id="statusbar-top">
   <span id="status-host">WebMC</span>
-  <span id="status-info">Ctrl+O: Terminal · F10: Exit</span>
+  <span id="status-info" data-i18n="statusInfo">Ctrl+O: Terminal · F10: Exit</span>
 </div>
 <div id="panels">
   <div id="panel-left" class="panel active-panel">
@@ -27,8 +27,8 @@
     </div>
     <div class="panel-colheaders">
       <span class="colheader col-name sort-header" data-sort="name" data-label="Name">Name ▲</span>
-      <span class="colheader col-size sort-header" data-sort="size" data-label="Größe">Größe</span>
-      <span class="colheader col-date sort-header" data-sort="date" data-label="Datum">Datum</span>
+      <span class="colheader col-size sort-header" data-sort="size" data-label="Size">Size</span>
+      <span class="colheader col-date sort-header" data-sort="date" data-label="Date">Date</span>
     </div>
     <div class="panel-listing" id="listing-left" tabindex="0"></div>
   </div>
@@ -40,32 +40,32 @@
     </div>
     <div class="panel-colheaders">
       <span class="colheader col-name sort-header" data-sort="name" data-label="Name">Name</span>
-      <span class="colheader col-size sort-header" data-sort="size" data-label="Größe">Größe</span>
-      <span class="colheader col-date sort-header" data-sort="date" data-label="Datum">Datum</span>
+      <span class="colheader col-size sort-header" data-sort="size" data-label="Size">Size</span>
+      <span class="colheader col-date sort-header" data-sort="date" data-label="Date">Date</span>
     </div>
     <div class="panel-listing" id="listing-right" tabindex="0"></div>
   </div>
 </div>
 <div id="cmdline-wrapper">
   <span id="cmdline-prompt">$</span>
-  <input type="text" id="cmdline-input" placeholder="Befehl eingeben..." spellcheck="false" autocomplete="off">
+  <input type="text" id="cmdline-input" placeholder="Enter command..." spellcheck="false" autocomplete="off">
 </div>
 <div id="buttonbar">
-  <button class="fn-btn" data-fn="help" title="Hilfe"><span class="fn-key">F1</span> Hilfe</button>
-  <button class="fn-btn" data-fn="rename" title="Umbenennen"><span class="fn-key">F2</span> Umbenennen</button>
-  <button class="fn-btn" data-fn="view" title="Anzeigen"><span class="fn-key">F3</span> Anzeigen</button>
-  <button class="fn-btn" data-fn="edit" title="Bearbeiten"><span class="fn-key">F4</span> Bearbeiten</button>
-  <button class="fn-btn" data-fn="copy" title="In Zwischenablage"><span class="fn-key">F5</span> Kopieren</button>
-  <button class="fn-btn" data-fn="move" title="In Zwischenablage"><span class="fn-key">F6</span> Verschieben</button>
-  <button class="fn-btn" data-fn="paste" title="Einfügen"><span class="fn-key">F6</span> Einfügen</button>
-  <button class="fn-btn" data-fn="mkdir" title="Verzeichnis"><span class="fn-key">F7</span> Verzeichnis</button>
-  <button class="fn-btn danger" data-fn="delete" title="Löschen"><span class="fn-key">F8</span> Löschen</button>
+  <button class="fn-btn" data-fn="help" title="Help"><span class="fn-key">F1</span> Help</button>
+  <button class="fn-btn" data-fn="rename" title="Rename"><span class="fn-key">F2</span> Rename</button>
+  <button class="fn-btn" data-fn="view" title="View"><span class="fn-key">F3</span> View</button>
+  <button class="fn-btn" data-fn="edit" title="Edit"><span class="fn-key">F4</span> Edit</button>
+  <button class="fn-btn" data-fn="copy" title="Copy"><span class="fn-key">F5</span> Copy</button>
+  <button class="fn-btn" data-fn="move" title="Move"><span class="fn-key">F6</span> Move</button>
+  <button class="fn-btn" data-fn="paste" title="Paste"><span class="fn-key">F6</span> Paste</button>
+  <button class="fn-btn" data-fn="mkdir" title="Directory"><span class="fn-key">F7</span> Directory</button>
+  <button class="fn-btn danger" data-fn="delete" title="Delete"><span class="fn-key">F8</span> Delete</button>
   <button class="fn-btn" data-fn="terminal" title="Terminal"><span class="fn-key">F9</span> Terminal</button>
-  <button class="fn-btn" data-fn="exit" title="Beenden"><span class="fn-key">F10</span> Beenden</button>
+  <button class="fn-btn" data-fn="exit" title="Exit"><span class="fn-key">F10</span> Exit</button>
 </div>
 <div id="statusbar-bottom">
-  <span id="status-left">Hilfe: F1</span>
-  <span id="status-center" id="status-msg">Bereit</span>
+  <span id="status-left">Help: F1</span>
+  <span id="status-center" id="status-msg">Ready</span>
   <span id="status-right" id="status-path">~</span>
 </div>
 

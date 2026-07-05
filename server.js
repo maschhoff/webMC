@@ -14,7 +14,7 @@ const path = require('path');
 const { execSync, exec: execCb } = require('child_process');
 
 // Config laden
-let CONFIG = { port: 4500, leftPanel: '/', rightPanel: '/' };
+let CONFIG = { port: 4500, leftPanel: '/', rightPanel: '/', language: 'en' };
 const configPath = path.join(__dirname, 'config.json');
 try {
   if (fs.existsSync(configPath)) {
@@ -488,12 +488,13 @@ const server = http.createServer((req, res) => {
   if (pathname === '/webmc-api/exec' && req.method === 'POST')   return readJSON(req, res, handleExec);
   if (pathname === '/webmc-api/upload' && req.method === 'POST') return handleUpload(req, res);
 
-  // Config API (gibt dem Client leftPanel/rightPanel)
+  // Config API (gibt dem Client leftPanel/rightPanel + language)
   if (pathname === '/webmc-api/config') {
     return sendJSON(res, {
       leftPanel: CONFIG.leftPanel,
       rightPanel: CONFIG.rightPanel,
       port: CONFIG.port,
+      language: CONFIG.language,
     });
   }
 

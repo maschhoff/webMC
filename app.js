@@ -17,6 +17,216 @@ const FILE_ICONS = {
 const SIZE_UNITS = ['B', 'K', 'M', 'G', 'T'];
 
 /* ============================================================
+   Internationalization (i18n)
+   ============================================================ */
+let lang = 'en';
+
+const L = {
+  en: {
+    langName: 'English',
+    entries: 'entries',
+    error: 'Error',
+    opened: 'Opened',
+    ready: 'Ready',
+    help: 'Help',
+    rename: 'Rename',
+    view: 'View',
+    edit: 'Edit',
+    copy: 'Copy',
+    move: 'Move',
+    paste: 'Paste',
+    mkdir: 'Directory',
+    delete: 'Delete',
+    terminal: 'Terminal',
+    exit: 'Exit',
+    saved: 'Saved!',
+    save: '💾 Save',
+    close: '✕ Close',
+    allMarked: 'All marked',
+    unmarked: 'Selection cleared',
+    inverted: 'Selection inverted',
+    search: 'Search files (pattern, e.g. *.txt):',
+    noResults: 'No results',
+    results: 'Results',
+    newDir: 'New directory:',
+    created: 'Created',
+    deleted: 'deleted',
+    confirmDelete: 'Delete',
+    confirmDeleteMultiple: 'files delete?',
+    copied: 'copied to',
+    moved: 'moved to',
+    sameDir: 'Source and destination are identical!',
+    renameTo: 'Rename to:',
+    download: 'Download',
+    downloaded: 'files as archive',
+    downloadFailed: 'Download failed',
+    uploaded: 'uploaded',
+    failed: 'failed',
+    unknown: 'Unknown',
+    sourceDestIdentical: 'Source and destination are identical!',
+    closeWebMC: 'Close WebMC?',
+    terminalCwd: 'Terminal',
+    terminalHint: 'Enter a command (Enter). "exit" to close.',
+    terminalError: 'Error',
+    cmdPwd: 'Path',
+    sortName: 'Name',
+    sortSize: 'Size',
+    sortDate: 'Date',
+    statusInfo: 'Ctrl+O: Terminal · F10: Exit',
+    contextOpen: '📁 Open',
+    contextEdit: '📝 Edit',
+    contextCopy: '📋 Copy (F5)',
+    contextMove: '✂️ Move (F6)',
+    contextPaste: '📌 Paste',
+    contextRename: '✏️ Rename',
+    contextDelete: '🗑️ Delete (F8)',
+    contextMkdir: '📁 New Directory (F7)',
+    contextSearch: '🔍 Search (Ctrl+R)',
+    contextDownload: '⬇️ Download',
+    contextTerminal: '🖥️ Terminal (Ctrl+O)',
+    helpTitle: 'WebMC Keyboard Shortcuts:',
+    helpF1: '  F1        Help',
+    helpF2: '  F2        Rename',
+    helpF3: '  F3        View file',
+    helpF4: '  F4        Edit',
+    helpF5: '  F5        Copy',
+    helpF6: '  F6        Move',
+    helpF7: '  F7        New directory',
+    helpF8: '  F8        Delete',
+    helpF9: '  F9        Terminal',
+    helpF10: '  F10       Exit',
+    helpTab: '  Tab       Switch panel',
+    helpEnter: '  Enter     Open directory / file',
+    helpArrow: '  ↑/↓       Move cursor',
+    helpPage: '  PgUp/PgDn Page up/down',
+    helpHome: '  Home/End  Beginning/End',
+    helpIns: '  Ins       Toggle mark',
+    helpPlus: '  +         Mark all',
+    helpBSlash: '  \\        Invert selection',
+    helpCtrlO: '  Ctrl+O    Terminal',
+    helpCtrlR: '  Ctrl+R    Search',
+    helpCtrlBS: '  Ctrl+\\   Invert selection',
+    helpAltEnter: '  Alt+Enter Open in other panel',
+  },
+  de: {
+    langName: 'Deutsch',
+    entries: 'Einträge',
+    error: 'Fehler',
+    opened: 'Geöffnet',
+    ready: 'Bereit',
+    help: 'Hilfe',
+    rename: 'Umbenennen',
+    view: 'Anzeigen',
+    edit: 'Bearbeiten',
+    copy: 'Kopieren',
+    move: 'Verschieben',
+    paste: 'Einfügen',
+    mkdir: 'Verzeichnis',
+    delete: 'Löschen',
+    terminal: 'Terminal',
+    exit: 'Beenden',
+    saved: 'Gespeichert!',
+    save: '💾 Speichern',
+    close: '✕ Schließen',
+    allMarked: 'Alle markiert',
+    unmarked: 'Markierung aufgehoben',
+    inverted: 'Auswahl umgekehrt',
+    search: 'Dateisuche (Muster, z.B. *.txt):',
+    noResults: 'Keine Treffer',
+    results: 'Treffer',
+    newDir: 'Neues Verzeichnis:',
+    created: 'Erstellt',
+    deleted: 'gelöscht',
+    confirmDelete: 'Löschen:',
+    confirmDeleteMultiple: 'Dateien löschen?',
+    copied: 'kopiert nach',
+    moved: 'verschoben nach',
+    sameDir: 'Quelle und Ziel sind identisch!',
+    renameTo: 'Umbenennen in:',
+    download: 'Download',
+    downloaded: 'Dateien als Archiv',
+    downloadFailed: 'Download fehlgeschlagen',
+    uploaded: 'hochgeladen',
+    failed: 'fehlgeschlagen',
+    unknown: 'Unbekannt',
+    sourceDestIdentical: 'Quelle und Ziel sind identisch!',
+    closeWebMC: 'WebMC schließen?',
+    terminalCwd: 'Terminal',
+    terminalHint: 'Geben Sie einen Befehl ein (Enter). "exit" zum Schließen.',
+    terminalError: 'Fehler',
+    cmdPwd: 'Pfad',
+    sortName: 'Name',
+    sortSize: 'Größe',
+    sortDate: 'Datum',
+    statusInfo: 'Ctrl+O: Terminal · F10: Beenden',
+    contextOpen: '📁 Öffnen',
+    contextEdit: '📝 Bearbeiten',
+    contextCopy: '📋 Kopieren (F5)',
+    contextMove: '✂️ Verschieben (F6)',
+    contextPaste: '📌 Einfügen',
+    contextRename: '✏️ Umbenennen',
+    contextDelete: '🗑️ Löschen (F8)',
+    contextMkdir: '📁 Verzeichnis anlegen (F7)',
+    contextSearch: '🔍 Suchen (Strg+R)',
+    contextDownload: '⬇️ Herunterladen',
+    contextTerminal: '🖥️ Terminal (Strg+O)',
+    helpTitle: 'WebMC Tastenkürzel:',
+    helpF1: '  F1        Hilfe',
+    helpF2: '  F2        Umbenennen',
+    helpF3: '  F3        Datei anzeigen',
+    helpF4: '  F4        Bearbeiten',
+    helpF5: '  F5        Kopieren',
+    helpF6: '  F6        Verschieben',
+    helpF7: '  F7        Verzeichnis anlegen',
+    helpF8: '  F8        Löschen',
+    helpF9: '  F9        Terminal',
+    helpF10: '  F10       Beenden',
+    helpTab: '  Tab       Panel wechseln',
+    helpEnter: '  Enter     Verzeichnis öffnen / Datei',
+    helpArrow: '  ↑/↓       Cursor bewegen',
+    helpPage: '  PgUp/PgDn Seite',
+    helpHome: '  Home/End  Anfang/Ende',
+    helpIns: '  Ins       Markieren',
+    helpPlus: '  +         Alle markieren',
+    helpBSlash: '  \\        Auswahl umkehren',
+    helpCtrlO: '  Ctrl+O    Terminal',
+    helpCtrlR: '  Ctrl+R    Suchen',
+    helpCtrlBS: '  Ctrl+\\   Markierung umkehren',
+    helpAltEnter: '  Alt+Enter In anderem Panel öffnen',
+  },
+};
+
+function t(key) {
+  if (L[lang] && L[lang][key] !== undefined) return L[lang][key];
+  if (L['en'][key] !== undefined) return L['en'][key];
+  return key;
+}
+
+/* Apply language to all static UI elements */
+function applyLanguage() {
+  // Status bar
+  const infoEl = document.getElementById('status-info');
+  if (infoEl) infoEl.textContent = t('statusInfo');
+  const msgEl = document.getElementById('status-center');
+  if (msgEl) msgEl.textContent = t('ready');
+
+  // Column headers
+  $$('.sort-header[data-label]').forEach(h => {
+    const field = h.dataset.sort;
+    const labelKey = 'sort' + field.charAt(0).toUpperCase() + field.slice(1);
+    const label = t(labelKey);
+    h.dataset.label = label;
+    // Determine if active, keep arrow
+    const side = h.closest('.panel') === el.left ? 'left' : 'right';
+    if (field === state.panels[side].sortBy) {
+      h.textContent = state.panels[side].sortDir === 1 ? `${label} ▲` : `${label} ▼`;
+    } else {
+      h.textContent = label;
+    }
+  });
+}
+
+/* ============================================================
    State
    ============================================================ */
 const state = {
@@ -206,7 +416,7 @@ function renderPanel(side) {
   const info = side === 'left' ? el.infoL : el.infoR;
 
   title.textContent = panel.path;
-  info.textContent = `${panel.files.length} Einträge`;
+  info.textContent = `${panel.files.length} ${t('entries')}`;
 
   let html = '';
   if (panel.path !== '/') {
@@ -253,7 +463,7 @@ function refreshPanel(side) {
     panel.files = d.files || [];
     renderPanel(side);
     applyCursor(side);
-  }).catch(e => toast(`Fehler: ${e.message}`, 'error'));
+  }).catch(e => toast(`${t('error')}: ${e.message}`, 'error'));
 }
 
 function refreshBoth() { refreshPanel('left'); refreshPanel('right'); }
@@ -384,8 +594,8 @@ async function openFile(path) {
     const r = await apiOpen(path);
     if (r.opened) return;
     if (r.type === 'text' && r.content !== undefined) showInlineEditor(path, r.content);
-    else toast(`Geöffnet: ${basename(path)}`, 'success');
-  } catch(e) { toast(`Fehler: ${e.message}`, 'error'); }
+    else toast(`${t('opened')}: ${basename(path)}`, 'success');
+  } catch(e) { toast(`${t('error')}: ${e.message}`, 'error'); }
 }
 
 function openInOtherPanel() {
@@ -418,14 +628,14 @@ function markAll(side) {
   $$('.file-entry', listing).forEach(e => {
     if (e.dataset.path && e.dataset.type !== 'updir') { panel.marked.add(e.dataset.path); e.classList.add('marked'); }
   });
-  updateStatusMsg('Alle markiert');
+  updateStatusMsg(t('allMarked'));
 }
 
 function unmarkAll(side) {
   state.panels[side].marked.clear();
   const listing = side==='left'?el.listingL:el.listingR;
   $$('.file-entry', listing).forEach(e => e.classList.remove('marked'));
-  updateStatusMsg('Markierung aufgehoben');
+  updateStatusMsg(t('unmarked'));
 }
 
 function markInvert(side) {
@@ -437,7 +647,7 @@ function markInvert(side) {
     if (panel.marked.has(p)) { panel.marked.delete(p); e.classList.remove('marked'); }
     else { panel.marked.add(p); e.classList.add('marked'); }
   });
-  updateStatusMsg('Auswahl umgekehrt');
+  updateStatusMsg(t('inverted'));
 }
 
 function downloadAction() {
@@ -469,7 +679,7 @@ async function downloadAsZip(paths) {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ paths }),
     });
-    if (!r.ok) throw new Error('Download fehlgeschlagen');
+    if (!r.ok) throw new Error(t('downloadFailed'));
     const blob = await r.blob();
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
@@ -479,7 +689,7 @@ async function downloadAsZip(paths) {
     a.click();
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
-    toast(`${paths.length} Dateien als ZIP geladen`, 'success');
+    toast(`${paths.length} ${t('downloaded')}`, 'success');
   } catch (e) {
     toast(e.message, 'error');
   }
@@ -500,10 +710,10 @@ function refreshBothDelayed() {
 }
 
 function mkdirAction() {
-  const name = prompt('Neues Verzeichnis:');
+  const name = prompt(t('newDir'));
   if (!name) return;
   const fullPath = joinPath(getActiveState().path, name);
-  apiMkdir(fullPath).then(() => { toast('Erstellt: '+name, 'success'); refreshBothDelayed(); })
+  apiMkdir(fullPath).then(() => { toast(t('created')+': '+name, 'success'); refreshBothDelayed(); })
     .catch(e => toast(e.message, 'error'));
 }
 
@@ -511,9 +721,9 @@ function deleteAction() {
   const side = getActivePanel();
   const items = getMarkedOrCurrent(side);
   if (!items.length) return;
-  if (!confirm(items.length===1 ? `Löschen: ${basename(items[0])}?` : `${items.length} Dateien löschen?`)) return;
+  if (!confirm(items.length===1 ? `${t('confirmDelete')} ${basename(items[0])}?` : `${items.length} ${t('confirmDeleteMultiple')}`)) return;
   apiRemove(items).then(() => {
-    toast(`${items.length} gelöscht`, 'success');
+    toast(`${items.length} ${t('deleted')}`, 'success');
     state.panels[side].marked.clear();
     refreshBothDelayed();
   }).catch(e => toast(e.message, 'error'));
@@ -527,11 +737,11 @@ function copyAction() {
   const otherSide = side === 'left' ? 'right' : 'left';
   const dest = state.panels[otherSide].path;
   if (dest === state.panels[side].path) {
-    toast('Quelle und Ziel sind identisch!', 'error');
+    toast(t('sourceDestIdentical'), 'error');
     return;
   }
   apiCopy(items, dest).then(() => {
-    toast(`${items.length} Datei(en) kopiert nach ${basename(dest)}`, 'success');
+    toast(`${items.length} ${t('copied')} ${basename(dest)}`, 'success');
     state.panels[side].marked.clear();
     refreshBoth();
   }).catch(e => toast(e.message, 'error'));
@@ -545,11 +755,11 @@ function moveAction() {
   const otherSide = side === 'left' ? 'right' : 'left';
   const dest = state.panels[otherSide].path;
   if (dest === state.panels[side].path) {
-    toast('Quelle und Ziel sind identisch!', 'error');
+    toast(t('sourceDestIdentical'), 'error');
     return;
   }
   apiMove(items, dest).then(() => {
-    toast(`${items.length} Datei(en) verschoben nach ${basename(dest)}`, 'success');
+    toast(`${items.length} ${t('moved')} ${basename(dest)}`, 'success');
     state.panels[side].marked.clear();
     refreshBoth();
   }).catch(e => toast(e.message, 'error'));
@@ -564,7 +774,7 @@ function renameAction() {
   const cf = getCursorFile(getActivePanel());
   if (!cf) return;
   const old = cf.name || basename(cf.path);
-  const nu = prompt('Umbenennen in:', old);
+  const nu = prompt(t('renameTo'), old);
   if (!nu || nu === old) return;
   apiMove([cf.path], joinPath(dirname(cf.path), nu)).then(() => {
     toast(`${old} → ${nu}`, 'success');
@@ -587,8 +797,8 @@ function showInlineEditor(path, content) {
     <div style="display:flex;justify-content:space-between;padding:6px 10px;background:#24253a;border-bottom:1px solid #3b3f5c;">
       <span style="color:#7aa2f7;font-weight:bold;">${escapeHtml(path)}</span>
       <div>
-        <button id="ed-save" style="background:#9ece6a;color:#1a1b26;border:none;padding:4px 14px;border-radius:3px;cursor:pointer;margin-right:6px;">💾 Speichern</button>
-        <button id="ed-close" style="background:#f7768e;color:#fff;border:none;padding:4px 14px;border-radius:3px;cursor:pointer;">✕ Schließen</button>
+        <button id="ed-save" style="background:#9ece6a;color:#1a1b26;border:none;padding:4px 14px;border-radius:3px;cursor:pointer;margin-right:6px;">${t('save')}</button>
+        <button id="ed-close" style="background:#f7768e;color:#fff;border:none;padding:4px 14px;border-radius:3px;cursor:pointer;">${t('close')}</button>
       </div>
     </div>
     <textarea id="ed-ta" style="flex:1;background:#1a1b26;color:#c0caf5;border:none;outline:none;resize:none;padding:12px;font-family:inherit;font-size:13px;tab-size:2;">${escapeHtml(content)}</textarea>`;
@@ -597,7 +807,7 @@ function showInlineEditor(path, content) {
   ta.focus();
   overlay.querySelector('#ed-close').onclick = () => overlay.remove();
   overlay.querySelector('#ed-save').onclick = async () => {
-    try { await apiSave(path, ta.value); toast('Gespeichert!', 'success'); overlay.remove(); }
+    try { await apiSave(path, ta.value); toast(t('saved'), 'success'); overlay.remove(); }
     catch(e) { toast(e.message, 'error'); }
   };
   ta.addEventListener('keydown', e => {
@@ -612,10 +822,10 @@ function openTerminalHere() { openTerminal(getActiveState().path); }
    Search
    ============================================================ */
 function searchAction() {
-  const pattern = prompt('Dateisuche (Muster, z.B. *.txt):');
+  const pattern = prompt(t('search'));
   if (!pattern) return;
   apiSearch(state.panels[getActivePanel()].path, pattern).then(r => {
-    if (!r.files.length) { toast('Keine Treffer', 'info'); return; }
+    if (!r.files.length) { toast(t('noResults'), 'info'); return; }
     showSearchResults(r.files);
   }).catch(e => toast(e.message, 'error'));
 }
@@ -623,13 +833,13 @@ function searchAction() {
 function showSearchResults(files) {
   const side = getActivePanel();
   const panel = state.panels[side];
-  panel.path = `🔍 ${files.length} Treffer`;
+  panel.path = `🔍 ${files.length} ${t('results')}`;
   panel.cursor = 0; panel.marked.clear();
   const listing = side==='left'?el.listingL:el.listingR;
   const title = side==='left'?el.titleL:el.titleR;
   const info = side==='left'?el.infoL:el.infoR;
   title.textContent = panel.path;
-  info.textContent = `${files.length} Treffer`;
+  info.textContent = `${files.length} ${t('results')}`;
   let html = '';
   for (const f of files) {
     const ft = getFileType(f.name, f.isDirectory, f.isLink);
@@ -725,29 +935,7 @@ function executeCmdline(cmd) {
 }
 
 function showHelp() {
-  const help = `WebMC Tastenkürzel:
-  F1        Hilfe
-  F2        Menü / Benennen
-  F3        Datei anzeigen
-  F4        Bearbeiten
-  F5        Kopieren
-  F6        Verschieben
-  F7        Verzeichnis anlegen
-  F8        Löschen
-  F9        Terminal
-  F10       Beenden
-  Tab       Panel wechseln
-  Enter     Verzeichnis öffnen / Datei
-  ↑/↓       Cursor bewegen
-  PgUp/PgDn Seite
-  Home/End  Anfang/Ende
-  Ins       Markieren
-  +         Alle markieren
-  \\         Auswahl umkehren
-  Ctrl+O    Terminal
-  Ctrl+R    Suchen
-  Ctrl+\\   Markierung umkehren
-  Alt+Enter In anderem Panel öffnen`;
+  const help = `${t('helpTitle')}\n${t('helpF1')}\n${t('helpF2')}\n${t('helpF3')}\n${t('helpF4')}\n${t('helpF5')}\n${t('helpF6')}\n${t('helpF7')}\n${t('helpF8')}\n${t('helpF9')}\n${t('helpF10')}\n${t('helpTab')}\n${t('helpEnter')}\n${t('helpArrow')}\n${t('helpPage')}\n${t('helpHome')}\n${t('helpIns')}\n${t('helpPlus')}\n${t('helpBSlash')}\n${t('helpCtrlO')}\n${t('helpCtrlR')}\n${t('helpCtrlBS')}\n${t('helpAltEnter')}`;
   alert(help);
 }
 
@@ -766,7 +954,7 @@ function setupButtonBar() {
     mkdir:    () => mkdirAction(),
     delete:   () => deleteAction(),
     terminal: () => openTerminalHere(),
-    exit:     () => { if (confirm('WebMC schließen?')) window.close(); },
+    exit:     () => { if (confirm(t('closeWebMC'))) window.close(); },
   };
   document.querySelectorAll('.fn-btn').forEach(btn => {
     const fn = btn.dataset.fn;
@@ -860,7 +1048,7 @@ function handleKey(e) {
     case 'F7': e.preventDefault(); e.stopPropagation(); mkdirAction(); break;
     case 'F8': e.preventDefault(); e.stopPropagation(); deleteAction(); break;
     case 'F9': e.preventDefault(); e.stopPropagation(); openTerminalHere(); break;
-    case 'F10': e.preventDefault(); e.stopPropagation(); if (confirm('WebMC schließen?')) window.close(); break;
+    case 'F10': e.preventDefault(); e.stopPropagation(); if (confirm(t('closeWebMC'))) window.close(); break;
 
     // Tab — switch panel
     case 'Tab': e.preventDefault(); setActivePanel(side==='left'?'right':'left'); break;
@@ -923,20 +1111,20 @@ function showContextMenu(e, side) {
   menu.style.left = e.clientX + 'px';
   menu.style.top = e.clientY + 'px';
   const items = [
-    {label: '📁 Öffnen', fn: () => enterDir(side)},
-    {label: '📝 Bearbeiten', fn: () => editFileAction()},
+    {label: t('contextOpen'), fn: () => enterDir(side)},
+    {label: t('contextEdit'), fn: () => editFileAction()},
     {label: '—'},
-    {label: '📋 Kopieren (F5)', fn: () => copyAction()},
-    {label: '✂️ Verschieben (F6)', fn: () => moveAction()},
-    {label: '📌 Einfügen', fn: () => pasteAction()},
-    {label: '✏️ Umbenennen', fn: () => renameAction()},
-    {label: '🗑️ Löschen (F8)', fn: () => deleteAction()},
+    {label: t('contextCopy'), fn: () => copyAction()},
+    {label: t('contextMove'), fn: () => moveAction()},
+    {label: t('contextPaste'), fn: () => pasteAction()},
+    {label: t('contextRename'), fn: () => renameAction()},
+    {label: t('contextDelete'), fn: () => deleteAction()},
     {label: '—'},
-    {label: '📁 Verzeichnis anlegen (F7)', fn: () => mkdirAction()},
-    {label: '🔍 Suchen (Strg+R)', fn: () => searchAction()},
-    {label: '⬇️ Herunterladen', fn: () => downloadAction()},
+    {label: t('contextMkdir'), fn: () => mkdirAction()},
+    {label: t('contextSearch'), fn: () => searchAction()},
+    {label: t('contextDownload'), fn: () => downloadAction()},
     {label: '—'},
-    {label: '🖥️ Terminal (Strg+O)', fn: () => openTerminalHere()},
+    {label: t('contextTerminal'), fn: () => openTerminalHere()},
   ];
   for (const item of items) {
     if (item.label === '—') {
@@ -991,7 +1179,7 @@ function setupDragDrop() {
         ok++;
       } catch(_) { fail++; }
     }
-    toast(`${ok} hochgeladen${fail ? `, ${fail} fehlgeschlagen` : ''}`, fail ? 'error' : 'success');
+    toast(`${ok} ${t('uploaded')}${fail ? `, ${fail} ${t('failed')}` : ''}`, fail ? 'error' : 'success');
     refreshBoth();
   });
 }
@@ -1003,11 +1191,13 @@ function init() {
   cacheDom();
   setupDragDrop();
 
-  // Config laden (leftPanel/rightPanel)
+  // Config laden (leftPanel/rightPanel + language)
   apiConfig().then(cfg => {
     if (cfg) {
+      if (cfg.language === 'de' || cfg.language === 'en') lang = cfg.language;
       state.panels.left.path = cfg.leftPanel || '/';
       state.panels.right.path = cfg.rightPanel || '/';
+      applyLanguage();
       refreshBoth();
     } else {
       refreshBoth();
