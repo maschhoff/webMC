@@ -84,6 +84,9 @@ const L = {
     contextSearch: '🔍 Search (Ctrl+R)',
     contextDownload: '⬇️ Download',
     contextTerminal: '🖥️ Terminal (Ctrl+O)',
+    contextUpload: '⬆️ Datei(en) hochladen',
+    uploadHere: 'Dateien werden hochgeladen nach',
+    uploadStarted: 'wird hochgeladen…',
     helpTitle: 'WebMC Keyboard Shortcuts:',
     helpF1: '  F1        Help',
     helpF2: '  F2        Rename',
@@ -170,6 +173,9 @@ const L = {
     contextSearch: '🔍 Suchen (Strg+R)',
     contextDownload: '⬇️ Herunterladen',
     contextTerminal: '🖥️ Terminal (Strg+O)',
+    contextUpload: '⬆️ Datei(en) hochladen',
+    uploadHere: 'Dateien werden hochgeladen nach',
+    uploadStarted: 'wird hochgeladen…',
     helpTitle: 'WebMC Tastenkürzel:',
     helpF1: '  F1        Hilfe',
     helpF2: '  F2        Umbenennen',
@@ -1099,8 +1105,13 @@ function handleKey(e) {
 /* ============================================================
    Context menu
    ============================================================ */
-function showContextMenu(e, side) {
+function showContextMenu(e, side, ctxPath) {
   e.preventDefault();
+  // Aktuell markierte + der Zielordner bestimmen
+  const panel = state.panels[side];
+  const onDir = ctxPath && !panel.marked.has(ctxPath);
+  const destDir = ctxPath && onDir ? ctxPath : panel.path;
+
   // Vorheriges Context-Menü schließen
   if (state.activeContextMenu) {
     state.activeContextMenu.remove();
@@ -1120,6 +1131,7 @@ function showContextMenu(e, side) {
     {label: t('contextRename'), fn: () => renameAction()},
     {label: t('contextDelete'), fn: () => deleteAction()},
     {label: '—'},
+    {label: t('contextUpload'), fn: () => uploadFilesInto(destDir)},
     {label: t('contextMkdir'), fn: () => mkdirAction()},
     {label: t('contextSearch'), fn: () => searchAction()},
     {label: t('contextDownload'), fn: () => downloadAction()},
@@ -1168,20 +1180,41 @@ function setupDragDrop() {
     if (!files.length) return;
     const side = getActivePanel();
     const dest = state.panels[side].path;
-    let ok = 0, fail = 0;
-    for (const file of files) {
-      try {
-        const fd = new FormData();
-        fd.append('file', file);
-        fd.append('path', dest);
-        const r = await fetch(`${API_BASE}/webmc-api/upload`, { method:'POST', body:fd });
-        if (!r.ok) throw new Error();
-        ok++;
-      } catch(_) { fail++; }
-    }
-    toast(`${ok} ${t('uploaded')}${fail ? `, ${fail} ${t('failed')}` : ''}`, fail ? 'error' : 'success');
-    refreshBoth();
+    await uploadFileList([...files], dest);
   });
+}
+
+/* Lädt eine Liste von File-Objekten in den Zielordner `dest` hoch. */
+async function uploadFileList(fileList, dest) {
+  if (!fileList.length) return;
+  let ok = 0, fail = 0;
+  toast(`${fileList.length} ${t('uploadStarted')}`, 'info');
+  for (const file of fileList) {
+    try {
+      const fd = new FormData();
+      fd.append('file', file);
+      fd.append('path', dest);
+      const r = await fetch(`${API_BASE}/webmc-api/upload`, { method: 'POST', body: fd });
+      if (!r.ok) throw new Error((await r.json()).error || '');
+      ok++;
+    } catch (_) { fail++; }
+  }
+  toast(`${ok} ${t('uploaded')} ${t('uploadHere')} ${dest}${fail ? `, ${fail} ${t('failed')}` : ''}`, fail ? 'error' : 'success');
+  refreshBoth();
+}
+
+/* Rechtsklick → „Datei(en) hochladen“: öffnet Datei-Dialog und lädt in `dest` hoch. */
+function uploadFilesInto(dest) {
+  const input = document.createElement('input');
+  input.type = 'file';
+  input.multiple = true;
+  input.style.display = 'none';
+  document.body.appendChild(input);
+  input.addEventListener('change', () => {
+    if (input.files.length) uploadFileList([...input.files], dest);
+    input.remove();
+  });
+  input.click();
 }
 
 /* ============================================================
@@ -1253,7 +1286,12 @@ function init() {
     });
 
     // Rechtsklick
-    listing.addEventListener('contextmenu', e => showContextMenu(e, side));
+    listing.addEventListener('contextmenu', e => {
+      const entry = e.target.closest('.file-entry');
+      let ctxPath = null;
+      if (entry && entry.dataset.type === 'directory') ctxPath = entry.dataset.path;
+      showContextMenu(e, side, ctxPath);
+    });
   }
 
   makePanelClickable('left', el.listingL, el.titleL, $('#panel-left .panel-header'));
